@@ -682,100 +682,35 @@
             assign add_to_order_max = 6
             assign add_to_order_shown = 0
           -%}
-          {%- capture add_to_order_slides_html -%}
-            {%- if add_to_order_pool_size > 0 -%}
-              {%- liquid
-                assign add_to_order_pool_last = add_to_order_pool_size | minus: 1
-                assign random_seed = "now" | date: "%H%M%S" | modulo: add_to_order_pool_size
-              -%}
-              {%- for i in (0..add_to_order_pool_last) -%}
-                {%- if add_to_order_shown >= add_to_order_max -%}
+          {%- comment -%}
+            First pass: only count how many candidates would be shown.
+            The `form` tag is not reliable inside a `capture` block (Shopify's
+            Liquid loses track of the form context there), so the markup
+            itself is built in a second, uncaptured pass below.
+          {%- endcomment -%}
+          {%- if add_to_order_pool_size > 0 -%}
+            {%- liquid
+              assign add_to_order_pool_last = add_to_order_pool_size | minus: 1
+              assign random_seed = "now" | date: "%H%M%S" | modulo: add_to_order_pool_size
+            -%}
+            {%- for i in (0..add_to_order_pool_last) -%}
+              {%- if add_to_order_shown >= add_to_order_max -%}
+                {%- break -%}
+              {%- endif -%}
+              {%- assign product_index = i | plus: random_seed | modulo: add_to_order_pool_size -%}
+              {%- assign candidate = add_to_order_pool[product_index] -%}
+              {%- assign candidate_in_cart = false -%}
+              {%- for item in cart.items -%}
+                {%- if item.product.id == candidate.id -%}
+                  {%- assign candidate_in_cart = true -%}
                   {%- break -%}
                 {%- endif -%}
-                {%- assign product_index = i | plus: random_seed | modulo: add_to_order_pool_size -%}
-                {%- assign candidate = add_to_order_pool[product_index] -%}
-                {%- assign candidate_in_cart = false -%}
-                {%- for item in cart.items -%}
-                  {%- if item.product.id == candidate.id -%}
-                    {%- assign candidate_in_cart = true -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
-                {%- unless candidate_in_cart -%}
-                  {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
-                  {%- assign candidate_variant = candidate.selected_or_first_available_variant -%}
-                  <li
-                    id="CartDrawer-AddToOrder-{{ add_to_order_shown }}"
-                    class="cart-drawer__add-to-order-item"
-                  >
-                    <a
-                      href="{{ candidate.url }}"
-                      class="cart-drawer__add-to-order-media"
-                      tabindex="-1"
-                      aria-hidden="true"
-                    >
-                      {%- if candidate.featured_media -%}
-                        <img
-                          src="{{ candidate.featured_media | image_url: width: 200 }}"
-                          alt="{{ candidate.featured_media.alt | escape }}"
-                          loading="lazy"
-                          width="100"
-                          height="100"
-                        >
-                      {%- endif -%}
-                    </a>
-                    <div class="cart-drawer__add-to-order-info">
-                      <a href="{{ candidate.url }}" class="cart-drawer__add-to-order-title">
-                        {{- candidate.title | escape -}}
-                      </a>
-                      <p class="cart-drawer__add-to-order-price">{{ candidate.price | money }}</p>
-                    </div>
-                    <div class="cart-drawer__add-to-order-action">
-                      <product-form>
-                        {%- form 'product',
-                          candidate,
-                          id: 'AddToOrder-' | append: add_to_order_shown,
-                          class: 'cart-drawer__add-to-order-form'
-                        -%}
-                          <input
-                            type="hidden"
-                            name="id"
-                            value="{{ candidate_variant.id }}"
-                            class="product-variant-id"
-                            {% unless candidate_variant.available %}
-                              disabled
-                            {% endunless %}
-                          >
-                          <button
-                            type="submit"
-                            name="add"
-                            class="cart-drawer__add-to-order-submit"
-                            data-sold-out-message="true"
-                            {% unless candidate_variant.available %}
-                              disabled
-                            {% endunless %}
-                          >
-                            <span>
-                              {%- if candidate_variant.available -%}
-                                {{ 'products.product.add_to_cart' | t }}
-                              {%- else -%}
-                                {{ 'products.product.sold_out' | t }}
-                              {%- endif -%}
-                            </span>
-                            <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
-                            <span class="icon-wrap">
-                              {{- 'icon-plus.svg' | inline_asset_content -}}
-                            </span>
-                            {%- render 'loading-spinner' -%}
-                          </button>
-                        {%- endform -%}
-                      </product-form>
-                    </div>
-                  </li>
-                {%- endunless -%}
               {%- endfor -%}
-            {%- endif -%}
-          {%- endcapture -%}
+              {%- unless candidate_in_cart -%}
+                {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
           {%- if add_to_order_shown > 0 -%}
             <div class="complementary-products cart-drawer__add-to-order">
               <div class="complementary-products__container">
@@ -783,7 +718,93 @@
                   <h3 class="h4">{{ 'sections.cart.add_to_order.title' | t }}</h3>
                 </div>
                 <ul class="cart-drawer__add-to-order-list list-unstyled" role="list">
-                  {{ add_to_order_slides_html }}
+                  {%- assign add_to_order_rendered = 0 -%}
+                  {%- for i in (0..add_to_order_pool_last) -%}
+                    {%- if add_to_order_rendered >= add_to_order_max -%}
+                      {%- break -%}
+                    {%- endif -%}
+                    {%- assign product_index = i | plus: random_seed | modulo: add_to_order_pool_size -%}
+                    {%- assign candidate = add_to_order_pool[product_index] -%}
+                    {%- assign candidate_in_cart = false -%}
+                    {%- for item in cart.items -%}
+                      {%- if item.product.id == candidate.id -%}
+                        {%- assign candidate_in_cart = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- unless candidate_in_cart -%}
+                      {%- assign add_to_order_rendered = add_to_order_rendered | plus: 1 -%}
+                      {%- assign candidate_variant = candidate.selected_or_first_available_variant -%}
+                      <li
+                        id="CartDrawer-AddToOrder-{{ add_to_order_rendered }}"
+                        class="cart-drawer__add-to-order-item"
+                      >
+                        <a
+                          href="{{ candidate.url }}"
+                          class="cart-drawer__add-to-order-media"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          {%- if candidate.featured_media -%}
+                            <img
+                              src="{{ candidate.featured_media | image_url: width: 200 }}"
+                              alt="{{ candidate.featured_media.alt | escape }}"
+                              loading="lazy"
+                              width="100"
+                              height="100"
+                            >
+                          {%- endif -%}
+                        </a>
+                        <div class="cart-drawer__add-to-order-info">
+                          <a href="{{ candidate.url }}" class="cart-drawer__add-to-order-title">
+                            {{- candidate.title | escape -}}
+                          </a>
+                          <p class="cart-drawer__add-to-order-price">{{ candidate.price | money }}</p>
+                        </div>
+                        <div class="cart-drawer__add-to-order-action">
+                          <product-form>
+                            {%- form 'product',
+                              candidate,
+                              id: 'AddToOrder-' | append: add_to_order_rendered,
+                              class: 'cart-drawer__add-to-order-form'
+                            -%}
+                              <input
+                                type="hidden"
+                                name="id"
+                                value="{{ candidate_variant.id }}"
+                                class="product-variant-id"
+                                {% unless candidate_variant.available %}
+                                  disabled
+                                {% endunless %}
+                              >
+                              <button
+                                type="submit"
+                                name="add"
+                                class="cart-drawer__add-to-order-submit"
+                                data-sold-out-message="true"
+                                {% unless candidate_variant.available %}
+                                  disabled
+                                {% endunless %}
+                              >
+                                <span>
+                                  {%- if candidate_variant.available -%}
+                                    {{ 'products.product.add_to_cart' | t }}
+                                  {%- else -%}
+                                    {{ 'products.product.sold_out' | t }}
+                                  {%- endif -%}
+                                </span>
+                                <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+                                <span class="icon-wrap">
+                                  {{- 'icon-plus.svg' | inline_asset_content -}}
+                                </span>
+                                {%- render 'loading-spinner' -%}
+                              </button>
+                            {%- endform -%}
+                          </product-form>
+                        </div>
+                      </li>
+                    {%- endunless -%}
+                  {%- endfor -%}
                 </ul>
               </div>
             </div>
