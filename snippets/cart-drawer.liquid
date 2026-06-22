@@ -92,6 +92,46 @@
   }
 
   @media screen and (max-width: 749px) {
+    .cart-drawer__add-to-order-item .card__inner {
+      display: grid !important;
+      grid-template-columns: 6.5rem 1fr;
+      grid-template-areas:
+        'media info'
+        'button button';
+      column-gap: 1.2rem;
+      row-gap: 0.8rem;
+      align-items: start;
+    }
+
+    .cart-drawer__add-to-order-item .card__media {
+      grid-area: media;
+      position: relative !important;
+      top: auto !important;
+      bottom: auto !important;
+      width: 100% !important;
+      aspect-ratio: 1 / 1;
+      margin: 0 !important;
+    }
+
+    .cart-drawer__add-to-order-item .card__content {
+      grid-area: info;
+      width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .cart-drawer__add-to-order-item .card__information {
+      padding: 0 !important;
+    }
+
+    .cart-drawer__add-to-order-item .card__badge {
+      display: none !important;
+    }
+
+    .cart-drawer__add-to-order-item .quick-add {
+      grid-area: button;
+      margin: 0.6rem 0 0 !important;
+    }
+
     .cart-drawer__add-to-order-item .quick-add__submit {
       width: 100%;
       justify-content: space-between;
