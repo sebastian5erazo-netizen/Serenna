@@ -130,6 +130,16 @@ cart-drawer:not(.is-empty) .cart-drawer__collection {
   color: rgb(var(--color-button));
 }
 
+.cart-drawer__add-to-order {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.cart-drawer__add-to-order .summary__title {
+  padding: 0 0 1rem !important;
+}
+
 .drawer__heading {
   margin: 0 0 1rem;
 }

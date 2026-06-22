@@ -504,6 +504,106 @@
                   </li>
                 </ul>
               </div>
+
+              <product-recommendations
+                class="complementary-products quick-add-hidden complementary-products-contains-quick-add cart-drawer__add-to-order"
+                data-url="{{ routes.product_recommendations_url }}?limit=6&intent=complementary"
+                data-section-id="cart-drawer"
+                data-product-id="{{ cart.items.last.product.id }}"
+              >
+                {%- if recommendations.performed and recommendations.products_count > 0 -%}
+                  <aside aria-label="{{ 'sections.cart.add_to_order.title' | t }}">
+                    <div class="complementary-products__container">
+                      <div class="summary__title">
+                        <h3 class="h4">{{ 'sections.cart.add_to_order.title' | t }}</h3>
+                      </div>
+                      <slideshow-component class="slider-mobile-gutter">
+                        {%- assign number_of_slides = recommendations.products_count | plus: 0.0 | divided_by: 1 | ceil -%}
+                        <div
+                          id="Slider-CartDrawer-AddToOrder"
+                          class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere"
+                          role="list"
+                          {% if number_of_slides > 1 %}
+                            aria-label="{{ 'general.slider.name' | t }}"
+                          {% endif %}
+                        >
+                          {%- assign skip_card_product_styles = false -%}
+                          {%- for product in recommendations.products limit: 6 -%}
+                            <div
+                              id="Slide-CartDrawer-AddToOrder-{{ forloop.index }}"
+                              class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
+                              tabindex="-1"
+                              role="group"
+                              {% if number_of_slides > 1 %}
+                                aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                                aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                              {% endif %}
+                            >
+                              <ul class="list-unstyled" role="list">
+                                <li>
+                                  {% render 'card-product',
+                                    card_product: product,
+                                    media_aspect_ratio: 'square',
+                                    show_secondary_image: false,
+                                    lazy_load: false,
+                                    skip_styles: skip_card_product_styles,
+                                    quick_add: 'standard',
+                                    section_id: 'cart-drawer',
+                                    horizontal_class: true,
+                                    horizontal_quick_add: true
+                                  %}
+                                </li>
+                              </ul>
+                            </div>
+                            {%- assign skip_card_product_styles = true -%}
+                          {%- endfor -%}
+                        </div>
+                        {%- if number_of_slides > 1 -%}
+                          <div class="slider-buttons">
+                            <button
+                              type="button"
+                              class="slider-button slider-button--prev"
+                              name="previous"
+                              aria-label="{{ 'general.slider.previous_slide' | t }}"
+                            >
+                              <span class="svg-wrapper">
+                                {{- 'icon-caret.svg' | inline_asset_content -}}
+                              </span>
+                            </button>
+                            <div class="slider-counter slider-counter--dots">
+                              <div class="slideshow__control-wrapper">
+                                {%- for i in (1..number_of_slides) -%}
+                                  <button
+                                    class="slider-counter__link slider-counter__link--dots link"
+                                    aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                                    aria-controls="Slider-CartDrawer-AddToOrder"
+                                  >
+                                    <span class="dot"></span>
+                                  </button>
+                                {%- endfor -%}
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              class="slider-button slider-button--next"
+                              name="next"
+                              aria-label="{{ 'general.slider.next_slide' | t }}"
+                            >
+                              <span class="svg-wrapper">
+                                {{- 'icon-caret.svg' | inline_asset_content -}}
+                              </span>
+                            </button>
+                          </div>
+                        {%- endif -%}
+                      </slideshow-component>
+                    </div>
+                  </aside>
+                {%- endif -%}
+                {{ 'component-card.css' | asset_url | stylesheet_tag }}
+                {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
+                {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+                <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+              </product-recommendations>
             {%- endif -%}
             <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
             <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">

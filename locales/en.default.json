@@ -321,6 +321,9 @@
         "item_2": "Hair type evaluation protocol",
         "item_3": "45-day warranty"
       },
+      "add_to_order": {
+        "title": "Would you like to add this to your order?"
+      },
       "headings": {
         "product": "Product",
         "price": "Price",
