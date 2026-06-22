@@ -332,9 +332,9 @@
       },
       "includes": {
         "title": "Tu compra incluye",
-        "item_1": "Guía biodermatológica",
-        "item_2": "Protocolo de evaluación de tipo de cabello",
-        "item_3": "Seguro de garantía de 45 días"
+        "item_1": "Guía biodermatológica (Gratis)",
+        "item_2": "Protocolo de evaluación de tipo de cabello (Gratis)",
+        "item_3": "Seguro de garantía de 45 días (Gratis)"
       },
       "add_to_order": {
         "title": "¿Deseas agregar esto a tu orden?"
