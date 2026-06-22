@@ -6,10 +6,10 @@
 {% endcomment %}
 
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 <style>
   .drawer {
@@ -23,122 +23,110 @@
   }
 
   .cart-drawer__add-to-order-item {
-    padding-bottom: 1.2rem;
-    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    grid-template-areas:
+      'media info'
+      'button button';
+    column-gap: 1.2rem;
+    row-gap: 1rem;
+    align-items: start;
+    padding: 1.2rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    border-radius: 0.8rem;
   }
 
-  .cart-drawer__add-to-order-item:last-child {
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-
-  .cart-drawer__add-to-order-item .card-wrapper {
+  .cart-drawer__add-to-order-media {
+    grid-area: media;
+    display: block;
     width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: rgba(var(--color-foreground), 0.06);
   }
 
-  .cart-drawer__add-to-order-item .quick-add {
-    position: relative;
-    z-index: 2;
+  .cart-drawer__add-to-order-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
   }
 
-  .cart-drawer__add-to-order-item .quick-add {
-    margin: 0.8rem 0 0;
-  }
-
-  .cart-drawer__add-to-order-item .quick-add__submit {
-    display: inline-flex;
-    align-items: center;
+  .cart-drawer__add-to-order-info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .cart-drawer__add-to-order-title {
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+  }
+
+  .cart-drawer__add-to-order-price {
+    margin: 0;
+    font-size: 1.3rem;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .cart-drawer__add-to-order-action {
+    grid-area: button;
+  }
+
+  .cart-drawer__add-to-order-form {
+    margin: 0;
+  }
+
+  .cart-drawer__add-to-order-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 1rem;
-    width: auto;
-    min-width: 0;
-    min-height: 0;
-    max-width: 100%;
-    padding: 0.9rem 2rem;
+    width: 100%;
+    padding: 0.9rem 1.4rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
     border-radius: 0.5rem;
     background: #f5c6a2;
     color: rgb(var(--color-foreground));
-    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    font: inherit;
     font-size: 1.4rem;
     font-weight: 500;
-    box-shadow: none;
-    transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease;
+    cursor: pointer;
+    transition: background-color var(--duration-short) ease;
   }
 
-  .cart-drawer__add-to-order-item .quick-add__submit::before,
-  .cart-drawer__add-to-order-item .quick-add__submit::after {
-    content: none;
-  }
-
-  .cart-drawer__add-to-order-item .quick-add__submit:hover {
+  .cart-drawer__add-to-order-submit:hover {
     background: #f0b78c;
-    border-color: rgba(var(--color-foreground), 0.18);
   }
 
-  .cart-drawer__add-to-order-item .icon-wrap {
+  .cart-drawer__add-to-order-submit[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: rgba(var(--color-foreground), 0.06);
+    border-color: rgba(var(--color-foreground), 0.08);
+  }
+
+  .cart-drawer__add-to-order-submit .icon-wrap {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     flex-shrink: 0;
   }
 
-  .cart-drawer__add-to-order-item .icon-wrap svg {
+  .cart-drawer__add-to-order-submit .icon-wrap svg {
     width: 1.1rem;
     height: 1.1rem;
   }
 
-  .cart-drawer__add-to-order-item .quick-add__submit.loading .icon-wrap {
-    opacity: 0;
-  }
-
-  .cart-drawer__add-to-order-item .card__media img {
-    filter: grayscale(100%);
-  }
-
-  @media screen and (max-width: 749px) {
-    .cart-drawer__add-to-order-item .card.card--horizontal {
-      display: grid !important;
-      grid-template-columns: 6.5rem 1fr;
-      grid-template-areas:
-        'media info'
-        'button button';
-      column-gap: 1.2rem;
-      row-gap: 1rem;
-      align-items: start;
-    }
-
-    .cart-drawer__add-to-order-item .card__inner {
-      grid-area: media;
-      position: relative !important;
-      width: 100% !important;
-      height: 6.5rem !important;
-      margin: 0 !important;
-    }
-
-    .cart-drawer__add-to-order-item .card__content {
-      grid-area: info;
-      width: 100% !important;
-      padding: 0 !important;
-    }
-
-    .cart-drawer__add-to-order-item .card__information {
-      padding: 0 !important;
-    }
-
-    .cart-drawer__add-to-order-item .card__badge {
-      display: none !important;
-    }
-
-    .cart-drawer__add-to-order-item .quick-add {
-      grid-area: button;
-      margin: 0 !important;
-    }
-
-    .cart-drawer__add-to-order-item .quick-add__submit {
-      width: 100%;
-      justify-content: space-between;
-      padding: 0.8rem 1.4rem;
-    }
+  .cart-drawer__add-to-order-submit .sold-out-message.hidden,
+  .cart-drawer__add-to-order-submit .loading__spinner.hidden {
+    display: none;
   }
 
   .cart-drawer__savings {
@@ -684,7 +672,7 @@
         </form>
 
         {%- comment -%}
-          The "add to order" cards below render their own <form> via card-product.
+          The "add to order" cards below render their own <form>.
           They must stay outside CartDrawer-Form: nesting a <form> inside another
           <form> is invalid HTML and breaks the quick-add AJAX submit handler.
         {%- endcomment -%}
@@ -700,7 +688,6 @@
               {%- liquid
                 assign add_to_order_pool_last = add_to_order_pool_size | minus: 1
                 assign random_seed = "now" | date: "%H%M%S" | modulo: add_to_order_pool_size
-                assign skip_card_product_styles = false
               -%}
               {%- for i in (0..add_to_order_pool_last) -%}
                 {%- if add_to_order_shown >= add_to_order_max -%}
@@ -717,23 +704,75 @@
                 {%- endfor -%}
                 {%- unless candidate_in_cart -%}
                   {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
+                  {%- assign candidate_variant = candidate.selected_or_first_available_variant -%}
                   <li
                     id="CartDrawer-AddToOrder-{{ add_to_order_shown }}"
                     class="cart-drawer__add-to-order-item"
                   >
-                    {% render 'card-product',
-                      card_product: candidate,
-                      media_aspect_ratio: 'square',
-                      show_secondary_image: false,
-                      lazy_load: false,
-                      skip_styles: skip_card_product_styles,
-                      quick_add: 'standard',
-                      section_id: 'cart-drawer',
-                      horizontal_class: true,
-                      horizontal_quick_add: true
-                    %}
+                    <a
+                      href="{{ candidate.url }}"
+                      class="cart-drawer__add-to-order-media"
+                      tabindex="-1"
+                      aria-hidden="true"
+                    >
+                      {%- if candidate.featured_media -%}
+                        <img
+                          src="{{ candidate.featured_media | image_url: width: 200 }}"
+                          alt="{{ candidate.featured_media.alt | escape }}"
+                          loading="lazy"
+                          width="100"
+                          height="100"
+                        >
+                      {%- endif -%}
+                    </a>
+                    <div class="cart-drawer__add-to-order-info">
+                      <a href="{{ candidate.url }}" class="cart-drawer__add-to-order-title">
+                        {{- candidate.title | escape -}}
+                      </a>
+                      <p class="cart-drawer__add-to-order-price">{{ candidate.price | money }}</p>
+                    </div>
+                    <div class="cart-drawer__add-to-order-action">
+                      <product-form>
+                        {%- form 'product',
+                          candidate,
+                          id: 'AddToOrder-' | append: add_to_order_shown,
+                          class: 'cart-drawer__add-to-order-form'
+                        -%}
+                          <input
+                            type="hidden"
+                            name="id"
+                            value="{{ candidate_variant.id }}"
+                            class="product-variant-id"
+                            {% unless candidate_variant.available %}
+                              disabled
+                            {% endunless %}
+                          >
+                          <button
+                            type="submit"
+                            name="add"
+                            class="cart-drawer__add-to-order-submit"
+                            data-sold-out-message="true"
+                            {% unless candidate_variant.available %}
+                              disabled
+                            {% endunless %}
+                          >
+                            <span>
+                              {%- if candidate_variant.available -%}
+                                {{ 'products.product.add_to_cart' | t }}
+                              {%- else -%}
+                                {{ 'products.product.sold_out' | t }}
+                              {%- endif -%}
+                            </span>
+                            <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+                            <span class="icon-wrap">
+                              {{- 'icon-plus.svg' | inline_asset_content -}}
+                            </span>
+                            {%- render 'loading-spinner' -%}
+                          </button>
+                        {%- endform -%}
+                      </product-form>
+                    </div>
                   </li>
-                  {%- assign skip_card_product_styles = true -%}
                 {%- endunless -%}
               {%- endfor -%}
             {%- endif -%}
@@ -749,10 +788,6 @@
                 </ul>
               </div>
             </div>
-            {{ 'component-card.css' | asset_url | stylesheet_tag }}
-            {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
-            {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-            <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
           {%- endif -%}
         {%- endif -%}
       </cart-drawer-items>
