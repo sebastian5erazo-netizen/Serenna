@@ -1,5 +1,6 @@
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
 {{ 'component-cart-items.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
@@ -24,6 +25,7 @@
 {%- endunless -%}
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 <cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
   <div class="page-width">
@@ -454,6 +456,13 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
+
+    {%- comment -%}
+      The "add to order" cards below render their own <form>.
+      They must stay outside the cart form above: nesting a <form> inside
+      another <form> is invalid HTML and breaks the quick-add AJAX submit handler.
+    {%- endcomment -%}
+    {% render 'cart-add-to-order', id_prefix: 'CartPage' %}
   </div>
 </cart-items>
 
