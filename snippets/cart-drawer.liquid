@@ -15,6 +15,26 @@
   .drawer {
     visibility: hidden;
   }
+
+  .cart-drawer__add-to-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .cart-drawer__add-to-order-item {
+    padding-bottom: 1.2rem;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .cart-drawer__add-to-order-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .cart-drawer__add-to-order-item .card-wrapper {
+    width: 100%;
+  }
 </style>
 
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
@@ -532,28 +552,22 @@
                     {%- endfor -%}
                     {%- unless candidate_in_cart -%}
                       {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
-                      <div
-                        id="Slide-CartDrawer-AddToOrder-{{ add_to_order_shown }}"
-                        class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
-                        tabindex="-1"
-                        role="group"
+                      <li
+                        id="CartDrawer-AddToOrder-{{ add_to_order_shown }}"
+                        class="cart-drawer__add-to-order-item"
                       >
-                        <ul class="list-unstyled" role="list">
-                          <li>
-                            {% render 'card-product',
-                              card_product: candidate,
-                              media_aspect_ratio: 'square',
-                              show_secondary_image: false,
-                              lazy_load: false,
-                              skip_styles: skip_card_product_styles,
-                              quick_add: 'standard',
-                              section_id: 'cart-drawer',
-                              horizontal_class: true,
-                              horizontal_quick_add: true
-                            %}
-                          </li>
-                        </ul>
-                      </div>
+                        {% render 'card-product',
+                          card_product: candidate,
+                          media_aspect_ratio: 'square',
+                          show_secondary_image: false,
+                          lazy_load: false,
+                          skip_styles: skip_card_product_styles,
+                          quick_add: 'standard',
+                          section_id: 'cart-drawer',
+                          horizontal_class: true,
+                          horizontal_quick_add: true
+                        %}
+                      </li>
                       {%- assign skip_card_product_styles = true -%}
                     {%- endunless -%}
                   {%- endfor -%}
@@ -565,52 +579,9 @@
                     <div class="summary__title">
                       <h3 class="h4">{{ 'sections.cart.add_to_order.title' | t }}</h3>
                     </div>
-                    <slideshow-component class="slider-mobile-gutter">
-                      <div
-                        id="Slider-CartDrawer-AddToOrder"
-                        class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere"
-                        role="list"
-                      >
-                        {{ add_to_order_slides_html }}
-                      </div>
-                      {%- if add_to_order_shown > 1 -%}
-                        <div class="slider-buttons">
-                          <button
-                            type="button"
-                            class="slider-button slider-button--prev"
-                            name="previous"
-                            aria-label="{{ 'general.slider.previous_slide' | t }}"
-                          >
-                            <span class="svg-wrapper">
-                              {{- 'icon-caret.svg' | inline_asset_content -}}
-                            </span>
-                          </button>
-                          <div class="slider-counter slider-counter--dots">
-                            <div class="slideshow__control-wrapper">
-                              {%- for i in (1..add_to_order_shown) -%}
-                                <button
-                                  class="slider-counter__link slider-counter__link--dots link"
-                                  aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
-                                  aria-controls="Slider-CartDrawer-AddToOrder"
-                                >
-                                  <span class="dot"></span>
-                                </button>
-                              {%- endfor -%}
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            class="slider-button slider-button--next"
-                            name="next"
-                            aria-label="{{ 'general.slider.next_slide' | t }}"
-                          >
-                            <span class="svg-wrapper">
-                              {{- 'icon-caret.svg' | inline_asset_content -}}
-                            </span>
-                          </button>
-                        </div>
-                      {%- endif -%}
-                    </slideshow-component>
+                    <ul class="cart-drawer__add-to-order-list list-unstyled" role="list">
+                      {{ add_to_order_slides_html }}
+                    </ul>
                   </div>
                 </div>
                 {{ 'component-card.css' | asset_url | stylesheet_tag }}
