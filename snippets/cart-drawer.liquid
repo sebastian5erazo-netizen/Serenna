@@ -41,37 +41,87 @@
     z-index: 2;
   }
 
+  .cart-drawer__add-to-order-item .quick-add {
+    margin: 0.8rem 0 0;
+  }
+
   .cart-drawer__add-to-order-item .quick-add__submit {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.6rem;
+    width: auto;
+    padding: 0.7rem 1rem 0.7rem 1.6rem;
+    border-radius: var(--buttons-radius-outset, 3rem);
+    background: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+    border-color: rgb(var(--color-button));
+    transition: opacity var(--duration-short) ease, transform var(--duration-short) ease;
+  }
+
+  .cart-drawer__add-to-order-item .quick-add__submit:hover {
+    opacity: 0.85;
   }
 
   .cart-drawer__add-to-order-item .icon-wrap {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    margin-left: 0.4rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: rgb(var(--color-button));
-    color: rgb(var(--color-button-text));
+    background: rgb(var(--color-button-text));
+    color: rgb(var(--color-button));
     flex-shrink: 0;
     transition: transform var(--duration-short) ease, opacity var(--duration-short) ease;
   }
 
   .cart-drawer__add-to-order-item .icon-wrap svg {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   .cart-drawer__add-to-order-item .quick-add__submit:hover .icon-wrap {
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 
   .cart-drawer__add-to-order-item .quick-add__submit.loading .icon-wrap {
     opacity: 0;
+  }
+
+  .cart-drawer__savings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.6rem 0 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.8rem;
+    background: #e7f6ec;
+    animation: cart-drawer-savings-pop 0.35s ease-out;
+  }
+
+  .cart-drawer__savings-label {
+    font-weight: 600;
+    color: #1c6b3a;
+    font-size: 1.4rem;
+  }
+
+  .cart-drawer__savings-value {
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: #1c6b3a;
+  }
+
+  @keyframes cart-drawer-savings-pop {
+    0% {
+      transform: scale(0.92);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 </style>
 
@@ -314,14 +364,23 @@
 
                         <td class="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
                           {%- render 'loading-spinner' -%}
+                          {%- liquid
+                            assign cart_item_regular_line_price = item.original_line_price
+                            if item.variant.compare_at_price > item.variant.price
+                              assign cart_item_compare_line_price = item.variant.compare_at_price | times: item.quantity
+                              if cart_item_compare_line_price > cart_item_regular_line_price
+                                assign cart_item_regular_line_price = cart_item_compare_line_price
+                              endif
+                            endif
+                          -%}
                           <div class="cart-item__price-wrapper">
-                            {%- if item.original_line_price != item.final_line_price -%}
+                            {%- if cart_item_regular_line_price != item.final_line_price -%}
                               <div class="cart-item__discounted-prices">
                                 <span class="visually-hidden">
                                   {{ 'products.product.price.regular_price' | t }}
                                 </span>
                                 <s class="cart-item__old-price price price--end">
-                                  {{ item.original_line_price | money }}
+                                  {{ cart_item_regular_line_price | money }}
                                 </s>
                                 <span class="visually-hidden">
                                   {{ 'products.product.price.sale_price' | t }}
@@ -688,6 +747,26 @@
             <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
             <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
           </div>
+
+          {%- liquid
+            assign cart_total_savings = 0
+            for item in cart.items
+              assign cart_item_regular_line_price_total = item.original_line_price
+              if item.variant.compare_at_price > item.variant.price
+                assign cart_item_compare_line_price_total = item.variant.compare_at_price | times: item.quantity
+                if cart_item_compare_line_price_total > cart_item_regular_line_price_total
+                  assign cart_item_regular_line_price_total = cart_item_compare_line_price_total
+                endif
+              endif
+              assign cart_total_savings = cart_total_savings | plus: cart_item_regular_line_price_total | minus: item.final_line_price
+            endfor
+          -%}
+          {%- if cart_total_savings > 0 -%}
+            <div class="cart-drawer__savings" role="status">
+              <span class="cart-drawer__savings-label">{{ 'sections.cart.savings' | t }}</span>
+              <span class="cart-drawer__savings-value">{{ cart_total_savings | money_with_currency }}</span>
+            </div>
+          {%- endif -%}
 
           <small class="tax-note caption-large rte">
             {%- if cart.duties_included and cart.taxes_included -%}
