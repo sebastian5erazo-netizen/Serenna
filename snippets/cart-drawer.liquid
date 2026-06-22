@@ -91,25 +91,27 @@
     opacity: 0;
   }
 
+  .cart-drawer__add-to-order-item .card__media img {
+    filter: grayscale(100%);
+  }
+
   @media screen and (max-width: 749px) {
-    .cart-drawer__add-to-order-item .card__inner {
+    .cart-drawer__add-to-order-item .card.card--horizontal {
       display: grid !important;
       grid-template-columns: 6.5rem 1fr;
       grid-template-areas:
         'media info'
         'button button';
       column-gap: 1.2rem;
-      row-gap: 0.8rem;
+      row-gap: 1rem;
       align-items: start;
     }
 
-    .cart-drawer__add-to-order-item .card__media {
+    .cart-drawer__add-to-order-item .card__inner {
       grid-area: media;
       position: relative !important;
-      top: auto !important;
-      bottom: auto !important;
       width: 100% !important;
-      aspect-ratio: 1 / 1;
+      height: 6.5rem !important;
       margin: 0 !important;
     }
 
@@ -129,7 +131,7 @@
 
     .cart-drawer__add-to-order-item .quick-add {
       grid-area: button;
-      margin: 0.6rem 0 0 !important;
+      margin: 0 !important;
     }
 
     .cart-drawer__add-to-order-item .quick-add__submit {
