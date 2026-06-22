@@ -53,9 +53,9 @@
     width: auto;
     padding: 0.7rem 1rem 0.7rem 1.6rem;
     border-radius: var(--buttons-radius-outset, 3rem);
-    background: rgb(var(--color-button));
-    color: rgb(var(--color-button-text));
-    border-color: rgb(var(--color-button));
+    background: #e0d6b8;
+    color: rgb(var(--color-foreground));
+    border-color: #e0d6b8;
     transition: opacity var(--duration-short) ease, transform var(--duration-short) ease;
   }
 
@@ -70,8 +70,8 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: rgb(var(--color-button-text));
-    color: rgb(var(--color-button));
+    background: rgb(var(--color-foreground));
+    color: #e0d6b8;
     flex-shrink: 0;
     transition: transform var(--duration-short) ease, opacity var(--duration-short) ease;
   }
@@ -97,20 +97,20 @@
     margin: 0.6rem 0 0;
     padding: 0.8rem 1.2rem;
     border-radius: 0.8rem;
-    background: #e7f6ec;
+    background: #e0d6b8;
     animation: cart-drawer-savings-pop 0.35s ease-out;
   }
 
   .cart-drawer__savings-label {
     font-weight: 600;
-    color: #1c6b3a;
+    color: rgb(var(--color-foreground));
     font-size: 1.4rem;
   }
 
   .cart-drawer__savings-value {
     font-weight: 700;
     font-size: 1.7rem;
-    color: #1c6b3a;
+    color: rgb(var(--color-foreground));
   }
 
   @keyframes cart-drawer-savings-pop {
