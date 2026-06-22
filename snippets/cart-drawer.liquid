@@ -735,6 +735,7 @@
                     {%- unless candidate_in_cart -%}
                       {%- assign add_to_order_rendered = add_to_order_rendered | plus: 1 -%}
                       {%- assign candidate_variant = candidate.selected_or_first_available_variant -%}
+                      {%- assign add_to_order_form_id = 'AddToOrder-' | append: add_to_order_rendered -%}
                       <li
                         id="CartDrawer-AddToOrder-{{ add_to_order_rendered }}"
                         class="cart-drawer__add-to-order-item"
@@ -765,7 +766,7 @@
                           <product-form>
                             {%- form 'product',
                               candidate,
-                              id: 'AddToOrder-' | append: add_to_order_rendered,
+                              id: add_to_order_form_id,
                               class: 'cart-drawer__add-to-order-form'
                             -%}
                               <input
