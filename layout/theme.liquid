@@ -375,7 +375,30 @@
 
     <script>
   document.addEventListener("instant:add-to-cart", () => {
-    // Add code specific to your theme to open the cart drawer
+    const cartDrawer = document.querySelector('cart-drawer');
+    if (!cartDrawer) return;
+
+    Promise.all([
+      fetch(`${window.routes.cart_url}?section_id=cart-drawer`).then((response) => response.text()),
+      fetch(`${window.routes.cart_url}?section_id=cart-icon-bubble`).then((response) => response.text()),
+    ])
+      .then(([drawerHtml, iconBubbleHtml]) => {
+        const drawerDoc = new DOMParser().parseFromString(drawerHtml, 'text/html');
+        const newDrawer = drawerDoc.querySelector('cart-drawer');
+        if (newDrawer) {
+          cartDrawer.innerHTML = newDrawer.innerHTML;
+          cartDrawer.classList.toggle('is-empty', newDrawer.classList.contains('is-empty'));
+        }
+
+        const cartIconBubble = document.getElementById('cart-icon-bubble');
+        const newCartIconBubble = new DOMParser()
+          .parseFromString(iconBubbleHtml, 'text/html')
+          .querySelector('.shopify-section');
+        if (cartIconBubble && newCartIconBubble) cartIconBubble.innerHTML = newCartIconBubble.innerHTML;
+
+        cartDrawer.open();
+      })
+      .catch((e) => console.error(e));
   });
 </script>
 
