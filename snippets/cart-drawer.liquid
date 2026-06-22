@@ -49,13 +49,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
+    gap: 0.8rem;
     width: auto;
-    padding: 0.7rem 1rem 0.7rem 1.6rem;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0.6rem 0.6rem 0.6rem 1.6rem;
     border-radius: var(--buttons-radius-outset, 3rem);
-    background: #e0d6b8;
+    background: #f5c6a2;
     color: rgb(var(--color-foreground));
-    border-color: #e0d6b8;
+    border-color: #f5c6a2;
     transition: opacity var(--duration-short) ease, transform var(--duration-short) ease;
   }
 
@@ -67,11 +69,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     background: rgb(var(--color-foreground));
-    color: #e0d6b8;
+    color: #f5c6a2;
     flex-shrink: 0;
     transition: transform var(--duration-short) ease, opacity var(--duration-short) ease;
   }
@@ -97,7 +99,7 @@
     margin: 0.6rem 0 0;
     padding: 0.8rem 1.2rem;
     border-radius: 0.8rem;
-    background: #e0d6b8;
+    background: #f5c6a2;
     animation: cart-drawer-savings-pop 0.35s ease-out;
   }
 
