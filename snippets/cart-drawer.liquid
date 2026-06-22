@@ -74,6 +74,27 @@
           </span>
         </button>
       </div>
+
+      {%- if cart != empty -%}
+        {%- liquid
+          assign free_shipping_threshold_cents = 200000 | times: 100
+          assign free_shipping_remaining = free_shipping_threshold_cents | minus: cart.total_price
+          assign free_shipping_progress = cart.total_price | times: 1.0 | divided_by: free_shipping_threshold_cents | times: 100 | at_most: 100
+          assign free_shipping_remaining_money = free_shipping_remaining | money
+        -%}
+        <div class="cart-drawer__free-shipping">
+          <p class="cart-drawer__free-shipping-message">
+            {%- if free_shipping_remaining <= 0 -%}
+              {{ 'sections.cart.free_shipping.achieved' | t }}
+            {%- else -%}
+              {{ 'sections.cart.free_shipping.remaining_html' | t: amount: free_shipping_remaining_money }}
+            {%- endif -%}
+          </p>
+          <div class="cart-drawer__free-shipping-bar">
+            <div class="cart-drawer__free-shipping-bar-fill" style="width: {{ free_shipping_progress }}%"></div>
+          </div>
+        </div>
+      {%- endif -%}
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
@@ -464,6 +485,24 @@
                     {%- endfor -%}
                   </tbody>
                 </table>
+              </div>
+
+              <div class="cart-drawer__includes">
+                <h3 class="cart-drawer__includes-title">{{ 'sections.cart.includes.title' | t }}</h3>
+                <ul class="cart-drawer__includes-list list-unstyled" role="list">
+                  <li class="cart-drawer__includes-item">
+                    <span class="svg-wrapper">{{- 'icon-checkmark.svg' | inline_asset_content -}}</span>
+                    {{ 'sections.cart.includes.item_1' | t }}
+                  </li>
+                  <li class="cart-drawer__includes-item">
+                    <span class="svg-wrapper">{{- 'icon-checkmark.svg' | inline_asset_content -}}</span>
+                    {{ 'sections.cart.includes.item_2' | t }}
+                  </li>
+                  <li class="cart-drawer__includes-item">
+                    <span class="svg-wrapper">{{- 'icon-checkmark.svg' | inline_asset_content -}}</span>
+                    {{ 'sections.cart.includes.item_3' | t }}
+                  </li>
+                </ul>
               </div>
             {%- endif -%}
             <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
