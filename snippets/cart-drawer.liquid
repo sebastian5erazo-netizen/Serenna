@@ -563,70 +563,6 @@
                 </ul>
               </div>
 
-              {%- liquid
-                assign add_to_order_pool = collections.all.products
-                assign add_to_order_pool_size = add_to_order_pool.size
-                assign add_to_order_max = 6
-                assign add_to_order_shown = 0
-              -%}
-              {%- capture add_to_order_slides_html -%}
-                {%- if add_to_order_pool_size > 0 -%}
-                  {%- liquid
-                    assign random_seed = "now" | date: "%H%M%S" | modulo: add_to_order_pool_size
-                    assign skip_card_product_styles = false
-                  -%}
-                  {%- for i in (0..add_to_order_pool_size) -%}
-                    {%- if add_to_order_shown >= add_to_order_max -%}
-                      {%- break -%}
-                    {%- endif -%}
-                    {%- assign product_index = i | plus: random_seed | modulo: add_to_order_pool_size -%}
-                    {%- assign candidate = add_to_order_pool[product_index] -%}
-                    {%- assign candidate_in_cart = false -%}
-                    {%- for item in cart.items -%}
-                      {%- if item.product.id == candidate.id -%}
-                        {%- assign candidate_in_cart = true -%}
-                        {%- break -%}
-                      {%- endif -%}
-                    {%- endfor -%}
-                    {%- unless candidate_in_cart -%}
-                      {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
-                      <li
-                        id="CartDrawer-AddToOrder-{{ add_to_order_shown }}"
-                        class="cart-drawer__add-to-order-item"
-                      >
-                        {% render 'card-product',
-                          card_product: candidate,
-                          media_aspect_ratio: 'square',
-                          show_secondary_image: false,
-                          lazy_load: false,
-                          skip_styles: skip_card_product_styles,
-                          quick_add: 'standard',
-                          section_id: 'cart-drawer',
-                          horizontal_class: true,
-                          horizontal_quick_add: true
-                        %}
-                      </li>
-                      {%- assign skip_card_product_styles = true -%}
-                    {%- endunless -%}
-                  {%- endfor -%}
-                {%- endif -%}
-              {%- endcapture -%}
-              {%- if add_to_order_shown > 0 -%}
-                <div class="complementary-products cart-drawer__add-to-order">
-                  <div class="complementary-products__container">
-                    <div class="summary__title">
-                      <h3 class="h4">{{ 'sections.cart.add_to_order.title' | t }}</h3>
-                    </div>
-                    <ul class="cart-drawer__add-to-order-list list-unstyled" role="list">
-                      {{ add_to_order_slides_html }}
-                    </ul>
-                  </div>
-                </div>
-                {{ 'component-card.css' | asset_url | stylesheet_tag }}
-                {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
-                {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-                <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-              {%- endif -%}
             {%- endif -%}
             <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
             <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">
@@ -635,6 +571,79 @@
           </div>
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
+
+        {%- comment -%}
+          The "add to order" cards below render their own <form> via card-product.
+          They must stay outside CartDrawer-Form: nesting a <form> inside another
+          <form> is invalid HTML and breaks the quick-add AJAX submit handler.
+        {%- endcomment -%}
+        {%- if cart != empty -%}
+          {%- liquid
+            assign add_to_order_pool = collections.all.products
+            assign add_to_order_pool_size = add_to_order_pool.size
+            assign add_to_order_max = 6
+            assign add_to_order_shown = 0
+          -%}
+          {%- capture add_to_order_slides_html -%}
+            {%- if add_to_order_pool_size > 0 -%}
+              {%- liquid
+                assign add_to_order_pool_last = add_to_order_pool_size | minus: 1
+                assign random_seed = "now" | date: "%H%M%S" | modulo: add_to_order_pool_size
+                assign skip_card_product_styles = false
+              -%}
+              {%- for i in (0..add_to_order_pool_last) -%}
+                {%- if add_to_order_shown >= add_to_order_max -%}
+                  {%- break -%}
+                {%- endif -%}
+                {%- assign product_index = i | plus: random_seed | modulo: add_to_order_pool_size -%}
+                {%- assign candidate = add_to_order_pool[product_index] -%}
+                {%- assign candidate_in_cart = false -%}
+                {%- for item in cart.items -%}
+                  {%- if item.product.id == candidate.id -%}
+                    {%- assign candidate_in_cart = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- unless candidate_in_cart -%}
+                  {%- assign add_to_order_shown = add_to_order_shown | plus: 1 -%}
+                  <li
+                    id="CartDrawer-AddToOrder-{{ add_to_order_shown }}"
+                    class="cart-drawer__add-to-order-item"
+                  >
+                    {% render 'card-product',
+                      card_product: candidate,
+                      media_aspect_ratio: 'square',
+                      show_secondary_image: false,
+                      lazy_load: false,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: 'standard',
+                      section_id: 'cart-drawer',
+                      horizontal_class: true,
+                      horizontal_quick_add: true
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endcapture -%}
+          {%- if add_to_order_shown > 0 -%}
+            <div class="complementary-products cart-drawer__add-to-order">
+              <div class="complementary-products__container">
+                <div class="summary__title">
+                  <h3 class="h4">{{ 'sections.cart.add_to_order.title' | t }}</h3>
+                </div>
+                <ul class="cart-drawer__add-to-order-list list-unstyled" role="list">
+                  {{ add_to_order_slides_html }}
+                </ul>
+              </div>
+            </div>
+            {{ 'component-card.css' | asset_url | stylesheet_tag }}
+            {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
+            {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+            <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+          {%- endif -%}
+        {%- endif -%}
       </cart-drawer-items>
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
