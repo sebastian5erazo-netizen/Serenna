@@ -13,6 +13,19 @@
 {% endcomment %}
 
 <style>
+  .drawer__inner-empty {
+    overflow-y: auto;
+  }
+
+  .drawer__inner-empty .cart-drawer__warnings {
+    flex: 0 0 auto;
+    padding-top: 3rem;
+  }
+
+  .drawer__inner-empty .cart-drawer__add-to-order {
+    flex-shrink: 0;
+  }
+
   .cart-drawer__add-to-order-list {
     display: flex;
     flex-direction: column;
