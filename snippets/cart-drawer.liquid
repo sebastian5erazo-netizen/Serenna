@@ -77,7 +77,7 @@
 
       {%- if cart != empty -%}
         {%- liquid
-          assign free_shipping_threshold_cents = 200000 | times: 100
+          assign free_shipping_threshold_cents = 100000 | times: 100
           assign free_shipping_remaining = free_shipping_threshold_cents | minus: cart.total_price
           assign free_shipping_progress = cart.total_price | times: 1.0 | divided_by: free_shipping_threshold_cents | times: 100 | at_most: 100
           assign free_shipping_remaining_money = free_shipping_remaining | money
