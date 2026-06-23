@@ -181,8 +181,14 @@
       </li>
     </ul>
   </div>
+{%- endif -%}
 
-  {%- liquid
+{%- comment -%}
+  The cross-sell cards below are shown regardless of whether the cart is
+  empty, so customers see "add to order" suggestions even before they've
+  added anything.
+{%- endcomment -%}
+{%- liquid
     assign add_to_order_pool = collections.all.products
     assign add_to_order_pool_size = add_to_order_pool.size
     assign add_to_order_max = 6
