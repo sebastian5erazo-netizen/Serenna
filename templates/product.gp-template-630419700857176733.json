@@ -331,10 +331,10 @@
     },
     "gp_section_630419701411873437": {
       "settings": {
-        "checksum": "70062b302bf589dbaa901a37f8a9421a6e0f5c5c34be9c8471d74dbf0011bcf6_1_1_1_0__1",
+        "checksum": "d4b91ed8da8d4d20570cafb083ea319001b9c4d8d848d1222197010fc565a094_1_1_1_0__1",
         "ggBMyrVGGgA_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/hampoos_19.svg?v=1785450057",
         "ggBMyrVGGgA_srcSet_mobile_src": "https://placehold.co/524x559?text=Image",
-        "ggZYezhpB7n_srcSet_desktop_src": "https://placehold.co/938x153?text=Image",
+        "ggZYezhpB7n_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/hampoos_22.svg?v=1785450655",
         "ggZYezhpB7n_srcSet_mobile_src": "https://placehold.co/978x167?text=Image",
         "ggyOPk7reRm_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/hampoos_21.svg?v=1785450208",
         "ggyOPk7reRm_srcSet_mobile_src": "https://placehold.co/888x106?text=Image"
@@ -343,10 +343,12 @@
     },
     "gp_section_630419701411938973": {
       "settings": {
-        "checksum": "726fa43012ed1fa15f80d2f3e5b9594a89f2d8269cb5d55c168aa30cc3fba1f6_1_1_1_0__1",
+        "checksum": "2971e717a82c19b34eda2ba03610a7cdd504392381f79f7b5276f2443b88dafa_1_1_1_0__1",
         "gg-y03mFVjM_text": "<p>\"Pedí el tratamiento para 3 meses, apenas llevo 2 semanas tomándolas, pero inmediatamente me ha frenado la caída del pelo.\"</p>",
         "gg1NHc6jB2g_srcSet_desktop_src": "https://placehold.co/149x149?text=Image",
+        "gg1NHc6jB2g_srcSet_mobile_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/images_1.jpg",
         "gg2PcbZELgg_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Diseno_sin_titulo_11.svg?v=1785429478",
+        "gg62LaqAv2h_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/103303202_2913563225359649_9191350915573692665_n.webp?v=1785446880",
         "gg63ZIQU0Kz_text": "Andrea.M",
         "gg7PwNd0HC1_text": "<p>60 capsulas</p>",
         "gg8EkOaQyoK_text": "<p>70 mg de Biotina&nbsp;</p>",
@@ -355,6 +357,7 @@
         "gg9LdkKJ8j2_text": "<p>Si no te gusta devolvemos tu dinero.</p>",
         "gg9QwquoavB_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Diseno_sin_titulo_9.svg?v=1785429478",
         "ggAXCabew0o_srcSet_desktop_src": "https://placehold.co/149x149?text=Image",
+        "ggAXCabew0o_srcSet_mobile_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/images.jpg",
         "ggC-uMyTkTZ_srcSet_desktop_src": "https://placehold.co/165x165?text=Image",
         "ggC_cCf290e_text": "<p>150 mg de Péptidos de Colágeno</p>",
         "ggCt_drqy7Z_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Agregar_algo_de_texto_2.png?v=1785344844",
@@ -377,7 +380,6 @@
         "ggRFOnwZ4xe_text": "<p>\"Muchas gracias, me encanto el producto, de verdad que he utilizado muchísimos. Su producto enserio me encanto.\"</p>",
         "ggRGTjPuwGY_text": "Dermatologa. Luisa Peña",
         "ggRPKS3CEW5_text": "<p>$1.415 Por capsula</p>",
-        "ggT0ynyHrrf_srcSet_desktop_src": "https://placehold.co/163x163?text=Image",
         "ggTIANSQGN0_text": "<p>$1.998 Por capsula</p>",
         "ggVG5sxWY-q_text": "<p>100 mg de L-Cisteína</p>",
         "ggWRs30RZXx_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Agregar_algo_de_texto_1.png?v=1785344844",
@@ -401,6 +403,7 @@
         "ggiaHZYhWEd_text": "<p>180 capsulas</p>",
         "ggkD_dhQ7Ht_text": "<p><span style=\"background-color:rgba(247,241,249,0);color:rgb(0,0,0);\">Crecimiento del cabello y anticaída &nbsp;(sin minoxidil)</span></p>",
         "gglNZ9l-RHd_srcSet_desktop_src": "https://placehold.co/149x149?text=Image",
+        "gglNZ9l-RHd_srcSet_mobile_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Dermatologo-en-Redovan-La-Vega-Baja-del-Segura-Dr.-David-Cremades-Lloria-799x1024.webp",
         "gglok8KLvLa_srcSet_desktop_src": "https://placehold.co/149x149?text=Image",
         "gglrptZ3mOM_text": "<p>60 mg de Selenio (romero)&nbsp;</p>",
         "ggm8J9RbX9U_text": "Dermatóloga. Maria Ramírez.",
@@ -447,7 +450,8 @@
         "ggyrtgPnaN1_childItem_1": "<p><span style=\"color:#480B01;\">¿Cuál es nuestra mezcla de ingredientes?</span></p>",
         "ggyrtgPnaN1_childItem_2": "<p><span style=\"color:#480B01;\">Envíos y devoluciones</span></p>",
         "ggyrtgPnaN1_childItem_3": "<p><span style=\"color:#480B01;\">Las mejores formas de ver resultados con SERENNA</span></p>",
-        "ggyrtgPnaN1_childItem_4": "<p><span style=\"color:#480B01;\">Por esto deberías suscribirte</span></p>"
+        "ggyrtgPnaN1_childItem_4": "<p><span style=\"color:#480B01;\">Por esto deberías suscribirte</span></p>",
+        "section_preload": "true"
       },
       "type": "gp-section-630420295945028548"
     }
