@@ -324,7 +324,7 @@
     },
     "gp_section_630419701411938973": {
       "settings": {
-        "checksum": "76218a1d263c9eae3597d51dce9d8ee84eede0f718f341ff6472d30202f0a06d_1_1_1_0__1",
+        "checksum": "22cd5ec9d11413175b06e1ee372229ed1edffb0265fa17eda2492c6b75fdcdda_1_1_1_0__1",
         "gg-y03mFVjM_text": "<p>\"Pedí el tratamiento para 3 meses, apenas llevo 2 semanas tomándolas, pero inmediatamente me ha frenado la caída del pelo.\"</p>",
         "gg1NHc6jB2g_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/Female_doctor_close-up_selfie_202607301756.webp?v=1785452189",
         "gg1NHc6jB2g_srcSet_mobile_src": "https://cdn.shopify.com/s/files/1/0767/8292/8103/files/images_1.jpg",
@@ -427,7 +427,8 @@
         "ggyrtgPnaN1_childItem_0": "<p><span style=\"background-color:rgba(255,255,255,0);color:#480B01;\">¿Que diferencia SERENNA de otros productos?</span></p>",
         "ggyrtgPnaN1_childItem_1": "<p><span style=\"color:#480B01;\">¿Cuál es nuestra mezcla de ingredientes?</span></p>",
         "ggyrtgPnaN1_childItem_2": "<p><span style=\"color:#480B01;\">Envíos y devoluciones</span></p>",
-        "ggyrtgPnaN1_childItem_3": "<p><span style=\"color:#480B01;\">Las mejores formas de ver resultados con SERENNA</span></p>"
+        "ggyrtgPnaN1_childItem_3": "<p><span style=\"color:#480B01;\">Las mejores formas de ver resultados con SERENNA</span></p>",
+        "section_preload": "true"
       },
       "type": "gp-section-630420295945028548"
     }
