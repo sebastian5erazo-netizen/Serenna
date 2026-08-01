@@ -153,11 +153,6 @@
         "disabled": false,
         "settings": {}
       },
-      "1656560654682496077": {
-        "type": "shopify://apps/instant-ai-page-builder/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d",
-        "disabled": false,
-        "settings": {}
-      },
       "2567389343055140935": {
         "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
@@ -166,6 +161,11 @@
       "630419856583295645": {
         "type": "shopify://apps/gempages-cro/blocks/embed-gp-script-head/20b379d4-1b20-474c-a6ca-665c331919f3",
         "disabled": false,
+        "settings": {}
+      },
+      "1656560654682496077": {
+        "type": "shopify://apps/instant-ai-page-builder/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d",
+        "disabled": true,
         "settings": {}
       }
     },
